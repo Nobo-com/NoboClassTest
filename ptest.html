@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nobo Class Player Test</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+        body { margin: 0; background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { width: 100%; max-width: 800px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <video id="player" playsinline controls></video>
+</div>
+
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<script>
+    // প্লেয়ার ইনিশিয়ালাইজ করা (স্পিড কন্ট্রোলসহ)
+    const player = new Plyr('#player', {
+        controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'settings', 'fullscreen'],
+        speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] }
+    });
+
+    // কোডুলার থেকে আসা মেমোরির ভিডিও পাথ ধরার ফাংশন
+    function loadVideoFromKodular() {
+        let videoData = window.AppInventor.getWebViewString();
+        
+        if (videoData && videoData.trim() !== "") {
+            const videoElement = document.getElementById('player');
+            videoElement.src = videoData;
+            videoElement.load();
+        }
+    }
+
+    // পেজ লোড হওয়া মাত্রই কোডুলারের ডাটা টানবে
+    window.onload = function() {
+        setTimeout(loadVideoFromKodular, 300);
+    };
+</script>
+
+</body>
+</html>
